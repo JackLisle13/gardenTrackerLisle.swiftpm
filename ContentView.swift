@@ -4,7 +4,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
            
-            Text("gitsave123")
+            Text("gitsave123abcdefg")
         }
     }
 }
