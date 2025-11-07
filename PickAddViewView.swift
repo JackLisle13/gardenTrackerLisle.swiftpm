@@ -9,9 +9,15 @@ import SwiftUI
 
 struct InputView: View {
     
-    @State var 
     
     var body: some View {
+        
+        Button {
+            <#code#>
+        } label: {
+            <#code#>
+        }
+
 
         
         
