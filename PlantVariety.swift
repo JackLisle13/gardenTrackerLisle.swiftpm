@@ -7,13 +7,16 @@
 
 import Foundation
 
-class Plant{
+class PlantVariety{
     
     var name: String
-    var 
+    var category: String
     
     
-    
+    init(name: String, category: String) {
+        self.name = name
+        self.category = category
+    }
     
     
     
