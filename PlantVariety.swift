@@ -6,16 +6,24 @@
 //
 
 import Foundation
+import SwiftData
 
+@Model
 class PlantVariety{
     
-    var name: String
+    var varietyName: String
     var category: String
+    var qtty: Int
+    var datePlanted: Date
+    var numberHarvested = 0
+    var lbsHarvested = 0.0
     
     
-    init(name: String, category: String) {
-        self.name = name
+    init(varietyName: String, category: String, qtty: Int, datePlanted: Date) {
+        self.varietyName = varietyName
         self.category = category
+        self.qtty = qtty
+        self.datePlanted = datePlanted
     }
     
     

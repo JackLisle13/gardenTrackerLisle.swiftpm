@@ -10,17 +10,17 @@ import AppleProductTypes
 let package = Package(
     name: "gardenTrackerLisle",
     platforms: [
-        .iOS("16.0")
+        .iOS("17.0")
     ],
     products: [
         .iOSApplication(
             name: "gardenTrackerLisle",
             targets: ["AppModule"],
             bundleIdentifier: "clc.gardenTrackerLisle",
-            teamIdentifier: "55579PX2YL",
+            teamIdentifier: "LKW7UKGZ29",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .pencil),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.blue),
             supportedDeviceFamilies: [
                 .pad,
@@ -40,5 +40,5 @@ let package = Package(
             path: "."
         )
     ],
-    swiftLanguageVersions: [.v6]
+    swiftLanguageVersions: [.version("6")]
 )
