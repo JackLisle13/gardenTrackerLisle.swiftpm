@@ -1,11 +1,10 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct ContentView: View {
-    
-    
+
     @Environment(\.modelContext) var context
-    
+
     @Query var cart: [PlantVariety]
 
     //    Order:
@@ -15,46 +14,39 @@ struct ContentView: View {
     //        Leafy Vegetables
     //        Herbs
     //        Other
-    
 
-    
     var body: some View {
-        
-        NavigationStack{
-            
+
+        NavigationStack {
+
             VStack {
-                
+
                 Text("Garden Tracker")
                     .font(.largeTitle)
-                
-                
-                
+
                 Spacer(minLength: 50)
-                
-                ScrollView{
-                        
-                        listCategory(category: "Tomatoes")
-                            //.padding(20)
-                        listCategory(category: "Peppers")
-                            //.padding(20)
-                        listCategory(category: "Root Vegetables")
-                           // .padding(20)
-                        listCategory(category: "Cucumbers")
-                           // .padding(20)
-                        listCategory(category: "Leafy Vegetables")
-                          //  .padding(20)
-//                        listCategory(category: "Herbs")
-//                            .padding(20)
-                        listCategory(category: "Other")
-                          //  .padding(20)
+
+                ScrollView {
+
+                    listCategory(category: "Tomatoes")
+                    //.padding(20)
+                    listCategory(category: "Peppers")
+                    //.padding(20)
+                    listCategory(category: "Root Vegetables")
+                    // .padding(20)
+                    listCategory(category: "Cucumbers")
+                    // .padding(20)
+                    listCategory(category: "Leafy Vegetables")
+                    //  .padding(20)
+                    //                        listCategory(category: "Herbs")
+                    //                            .padding(20)
+                    listCategory(category: "Other")
+                    //  .padding(20)
                 }
-                
-                
-                
-                
-            }//end main v stack
+
+            }  //end main v stack
             .toolbar {
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: PickAddViewView()) {
                         Image(systemName: "plus.circle")
@@ -62,54 +54,75 @@ struct ContentView: View {
                     }
                 }
             }
-            
-        }//end nav stack
-        
-        
+
+        }  //end nav stack
+
     }
-    
-    
-    
-    
-    func listCategory (category: String)->some View{
-        
-        VStack{
+
+    func listCategory(category: String) -> some View {
+        let categoryPlants = cart.filter { $0.category == category }//looked up, the normal way wasnt working
+
+        return VStack {
             Text("\(category)")
                 .font(.headline)
-            
+
             // \/\/ looked up, makes it so collumns depends on how much is in there, not fixed number
-            LazyVGrid(columns:        [GridItem(.adaptive(minimum: 100))], spacing: 16) {
-                
-                ForEach(cart) {thing in
-                    
-                    if(thing.category == category){
-                        
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 16)
+            {
+
+                ForEach(cart) { thing in
+
+                    if thing.category == category {
                         NavigationLink {
                             PlantView(plant: thing)
                         } label: {
-                               
-                                Text("\(thing.varietyName)")
-                                    .foregroundStyle(.white)
-                                    .padding(10)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .fill(Color(red: 0.5, green: 0.7, blue: 0.45))
-                                    )
+
+                            Text("\(thing.varietyName)")
+                                .foregroundStyle(.white)
+                                .padding(10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(
+                                            Color(
+                                                red: 0.5,
+                                                green: 0.7,
+                                                blue: 0.45
+                                            )
+                                        )
+                                )
                         }
                     }
-                    
+
                 }
-                
+
+            }
+            if categoryPlants.count > 1{
+                NavigationLink {
+                    
+                    CategoryView(plants: categoryPlants)
+                    
+                } label: {
+                    Text("Compare")
+                        .padding(15)
+                        .foregroundStyle(.white)
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(
+                                    Color(
+                                        red: 0.4,
+                                        green: 0.4,
+                                        blue: 0.4,
+                                    )
+                                )
+                        )
+                }
             }
         }
         .padding(20)
-        .background(Color(red: 0.9, green: 0.9, blue: 0.9))
-        
+        .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+
     }
-    
-    
-    
-    
+
 }
 
 #Preview {

@@ -23,7 +23,7 @@ struct TrackViewPiece: View {
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 20)
                 .keyboardType(.numberPad)
-            TextField("Weight (lbs)", text: $pounds)
+            TextField("Weight In Pounds (optional)", text: $pounds)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 20)
                 .keyboardType(.decimalPad)

@@ -137,25 +137,29 @@ struct AddNewVarietyView: View {
             //add plant button
             Button {
                 
-                if ((selected != "") && (selectedVariety != "") && (qtty != 0)){
-                    
-                    print("Inserting")
-                    
-                    context.insert(
-                        PlantVariety(varietyName: selectedVariety, category: selected, qtty: qtty, datePlanted: date)
-                    )
-                    do{
-                        try context.save()
-                        print("saved")
-                        print(cart.count)
-                    }catch{
-                        print("did not save")
-                    }
-                    //only takes off one layer, need to make a variable that does dismiss in the lwoer view too
-                   // dismiss()
+                if cart.contains(where: { $0.varietyName == selectedVariety }) { //autocompleted, not sure yet what the $0 does
+                    qtty += 1
                 }
                 else{
-                    errorOn = true
+                    if ((selected != "") && (selectedVariety != "") && (qtty != 0)){
+                        
+                        print("Inserting")
+                        
+                        context.insert(
+                            PlantVariety(varietyName: selectedVariety, category: selected, qtty: qtty, datePlanted: date)
+                        )
+                        do{
+                            try context.save()
+                            print("saved")
+                            print(cart.count)
+                        }catch{
+                            print("did not save")
+                        }
+                        
+                    }
+                    else{
+                        errorOn = true
+                    }
                 }
                 
             } label: {

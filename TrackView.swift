@@ -6,18 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TrackView: View {
     
+    @State var errorOn = false
     var selected: [PlantVariety]
     @State var qttyBindings = [""]
     @State var lbsBindings = [""]
+    @Environment(\.modelContext) var context
     
     init(selected: [PlantVariety]) {
             self.selected = selected
             _qttyBindings = State(initialValue: Array(repeating: "", count: selected.count))
             _lbsBindings = State(initialValue: Array(repeating: "", count: selected.count))
-        }
+        } //I got this on Chat, it makes empty arrays when the view is created
     
     
     
@@ -39,10 +42,20 @@ struct TrackView: View {
                 for i in 0 ..< selected.count {
                     if let amt = Int(qttyBindings[i]){
                         if let pounds = Double(lbsBindings[i]){
-                            
-                            selected[i].qtty += amt
-                            selected[i].lbsHarvested += pounds
-                            
+                            if amt > 0{
+                                selected[i].qtty += amt
+                                if selected[i].dateOfFirstHarvest != nil{
+                                    selected[i].dateOfFirstHarvest = .now
+                                }
+                                if pounds > 0{
+                                    selected[i].lbsHarvested += pounds
+                                    selected[i].numWLbs += 1
+                                }
+                                try? context.save()
+                            }
+                            else{
+                                errorOn = true
+                            }
                         }
                     }
                    // selected[i].qtty =
@@ -64,6 +77,8 @@ struct TrackView: View {
         
             
             
+        }
+        .alert("Please Enter Valid Inputs", isPresented: $errorOn) {
         }
         
         

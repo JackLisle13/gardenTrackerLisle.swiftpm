@@ -17,6 +17,8 @@ class PlantVariety{
     var datePlanted: Date
     var numberHarvested = 0
     var lbsHarvested = 0.0
+    var numWLbs = 0
+    var dateOfFirstHarvest: Date?
     
     
     init(varietyName: String, category: String, qtty: Int, datePlanted: Date) {
