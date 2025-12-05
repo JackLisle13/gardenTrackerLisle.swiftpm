@@ -10,9 +10,10 @@ import SwiftUI
 struct CategoryView: View {
     
     var plants: [PlantVariety]
-    @State var ind1 = 0
-    @State var ind2 = 0
-    @State var ind3 = 0
+    var multiplier: CGFloat {
+        let maxQtty = plants.map { $0.qtty }.max() ?? 1
+        return 200 / CGFloat(maxQtty)     // tallest bar = 200px tall
+    }//looked up
     
     var body: some View {
         
@@ -47,27 +48,81 @@ struct CategoryView: View {
             
             Text("Top Varieties (by quantity produced):")
                 .font(.headline)
-            HStack{
-//                ForEach(0..
-//                     
-//                }
-                
-                VStack{
-                    Rectangle()
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(Color.green)
+                HStack{
+                    
+                    VStack{
+                        
+                        Rectangle()
+                            .frame(width: 100, height: CGFloat(plants[topVarieties(place: 1)].qtty) * multiplier
+                            )
+                            .foregroundColor(Color.green)
+                        Text("\(plants[topVarieties(place:1)].varietyName)")
+                        Text("Qtty: \(plants[topVarieties(place:1)].qtty)")
+                    }
+                    
+                    
+                    if(topVarieties(place: 2) != -1){
+                        VStack{
+                            
+                            Rectangle()
+                                .frame(width: 100, height: CGFloat(plants[topVarieties(place: 2)].qtty) * multiplier
+                                )
+                                .foregroundColor(Color.green)
+                            Text("\(plants[topVarieties(place:2)].varietyName)")
+                            Text("Qtty: \(plants[topVarieties(place:2)].qtty)")
+                        }
+                        
+                    }
+                    
+                    if(topVarieties(place: 3) != -1 && plants.count >= 3){
+                        VStack{
+                            
+                            Rectangle()
+                                .frame(width: 100, height: CGFloat(plants[topVarieties(place: 3)].qtty) * multiplier
+                                )
+                                .foregroundColor(Color.green)
+                            Text("\(plants[topVarieties(place:3)].varietyName)")
+                            Text("Qtty: \(plants[topVarieties(place:3)].qtty)")
+                        }
+                        
+                    }
+                    
+                    
                     
                 }
-                
-                
-                
-            }
             
             
             
         }
 
     }
+    
+    func topVarieties(place: Int) -> Int {
+        var ind1 = 0
+        var ind2 = 0
+        var ind3 = 0
+        for i in 1 ..< plants.count{
+            if plants[i].qtty > plants[ind1].qtty{
+                ind3 = ind2
+                ind2 = ind1
+                ind1 = i
+                
+            }
+        }
+        if(place == 1){
+            return ind1
+        }
+        if(place == 2 && ind2 != ind1){
+            return ind2
+        }
+        if(place == 3 && ind2 != ind3){
+            return ind3
+        }
+        
+        return -1
+    }
+    
+    
 }
 
 #Preview {
