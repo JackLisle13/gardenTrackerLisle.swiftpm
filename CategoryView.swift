@@ -11,7 +11,7 @@ struct CategoryView: View {
     
     var plants: [PlantVariety]
     var multiplier: CGFloat {
-        let maxQtty = plants.map { $0.qtty }.max() ?? 1
+        let maxQtty = plants.map { $0.numberHarvested }.max() ?? 1
         return 200 / CGFloat(maxQtty)     // tallest bar = 200px tall
     }//looked up
     
@@ -53,11 +53,11 @@ struct CategoryView: View {
                     VStack{
                         
                         Rectangle()
-                            .frame(width: 100, height: CGFloat(plants[topVarieties(place: 1)].qtty) * multiplier
+                            .frame(width: 100, height: CGFloat(plants[topVarieties(place: 1)].numberHarvested) * multiplier
                             )
                             .foregroundColor(Color.green)
                         Text("\(plants[topVarieties(place:1)].varietyName)")
-                        Text("Qtty: \(plants[topVarieties(place:1)].qtty)")
+                        Text("Qtty: \(plants[topVarieties(place:1)].numberHarvested)")
                     }
                     
                     
@@ -65,11 +65,11 @@ struct CategoryView: View {
                         VStack{
                             
                             Rectangle()
-                                .frame(width: 100, height: CGFloat(plants[topVarieties(place: 2)].qtty) * multiplier
+                                .frame(width: 100, height: CGFloat(plants[topVarieties(place: 2)].numberHarvested) * multiplier
                                 )
                                 .foregroundColor(Color.green)
                             Text("\(plants[topVarieties(place:2)].varietyName)")
-                            Text("Qtty: \(plants[topVarieties(place:2)].qtty)")
+                            Text("Qtty: \(plants[topVarieties(place:2)].numberHarvested)")
                         }
                         
                     }
@@ -78,11 +78,11 @@ struct CategoryView: View {
                         VStack{
                             
                             Rectangle()
-                                .frame(width: 100, height: CGFloat(plants[topVarieties(place: 3)].qtty) * multiplier
+                                .frame(width: 100, height: CGFloat(plants[topVarieties(place: 3)].numberHarvested) * multiplier
                                 )
                                 .foregroundColor(Color.green)
                             Text("\(plants[topVarieties(place:3)].varietyName)")
-                            Text("Qtty: \(plants[topVarieties(place:3)].qtty)")
+                            Text("Qtty: \(plants[topVarieties(place:3)].numberHarvested)")
                         }
                         
                     }
@@ -98,24 +98,32 @@ struct CategoryView: View {
     }
     
     func topVarieties(place: Int) -> Int {
+    
         var ind1 = 0
-        var ind2 = 0
-        var ind3 = 0
+        var ind2 = -1
+        var ind3 = -1
         for i in 1 ..< plants.count{
-            if plants[i].qtty > plants[ind1].qtty{
+            if plants[i].numberHarvested > plants[ind1].numberHarvested{
                 ind3 = ind2
                 ind2 = ind1
                 ind1 = i
                 
             }
+            else if(ind2 == -1 || plants[i].numberHarvested > plants[ind2].numberHarvested){
+                ind3 = ind2
+                ind2 = i
+            }
+            else if(ind3 == -1 || plants[i].numberHarvested > plants[ind3].numberHarvested){
+                ind3 = i
+            }
         }
         if(place == 1){
             return ind1
         }
-        if(place == 2 && ind2 != ind1){
+        if(place == 2){
             return ind2
         }
-        if(place == 3 && ind2 != ind3){
+        if(place == 3){
             return ind3
         }
         

@@ -56,9 +56,10 @@ struct PlantView: View {
                 
                 Button{
                     plant.qtty += 1
-                    if plant.qtty > 0{
-                        context.insert(plant)
-                    }
+//                    if plant.qtty == 1{
+//                        context.insert(plant)
+//                    }
+                    try? context.save()
                 }label:{
                     Text("Increase Quantity")
                         .padding(20)
@@ -76,12 +77,12 @@ struct PlantView: View {
                 
                 HStack{
                     Button{
-                        if (plant.qtty == 0){
-                            context.delete(plant)
-                            dismiss()
+                        if (plant.qtty > 1){
+                            plant.qtty -= 1
                         }
                         else{
-                            plant.qtty -= 1
+                            context.delete(plant)
+                            dismiss()
                         }
                         try? context.save()
                     }label:{

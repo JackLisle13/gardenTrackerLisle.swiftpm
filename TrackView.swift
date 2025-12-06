@@ -41,9 +41,10 @@ struct TrackView: View {
                 
                 for i in 0 ..< selected.count {
                     if let amt = Int(qttyBindings[i]){
-                        if let pounds = Double(lbsBindings[i]){
-                            if amt > 0{
-                                selected[i].qtty += amt
+                        if amt > 0{
+                            selected[i].numberHarvested += amt
+                            if let pounds = Double(lbsBindings[i]){
+                                
                                 if selected[i].dateOfFirstHarvest != nil{
                                     selected[i].dateOfFirstHarvest = .now
                                 }
@@ -51,12 +52,13 @@ struct TrackView: View {
                                     selected[i].lbsHarvested += pounds
                                     selected[i].numWLbs += 1
                                 }
-                                try? context.save()
                             }
+                            try? context.save()
+                        }
                             else{
                                 errorOn = true
                             }
-                        }
+                        
                     }
                    // selected[i].qtty =
                     
